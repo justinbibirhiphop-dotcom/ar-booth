@@ -31,26 +31,31 @@
       <button onclick="document.getElementById('modal-c').style.display='none'" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">Close</button>
     </div>
 
-    <!-- AR Scene -->
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <!-- AR Scene Setup with corrected raycaster -->
+    <a-scene 
+      mindar-image="imageTargetSrc: ./targets.mind;" 
+      vr-mode-ui="enabled: false" 
+      device-orientation-permission-ui="enabled: false">
+      
       <a-assets>
         <img id="imgA" src="./A.png">
         <img id="imgB" src="./B.png">
         <img id="imgC" src="./C.png">
       </a-assets>
 
+      <!-- Updated Camera and Cursor -->
       <a-camera position="0 0 0" look-controls="enabled: false">
-        <a-entity cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-entity>
+        <a-entity cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable; near: 0; far: 50000;"></a-entity>
       </a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <!-- PNG A: Logo rotating slowly on Y-axis -->
-        <a-image src="#imgA" position="0 0.5 0" scale="0.4 0.4 0.4" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear;"></a-image>
+        <!-- PNG A: Tilted 90 degrees up, spinning on its center axis -->
+        <a-image src="#imgA" position="0 0.5 0" rotation="90 0 0" scale="0.4 0.4 0.4" animation="property: rotation; from: 90 0 0; to: 90 360 0; loop: true; dur: 5000; easing: linear;"></a-image>
 
-        <!-- PNG B: Clickable button -> Opens Modal B -->
+        <!-- PNG B: Clickable -->
         <a-image src="#imgB" position="-0.4 -0.2 0" scale="0.3 0.3 0.3" class="clickable" show-data="target: modal-b"></a-image>
 
-        <!-- PNG C: Clickable button -> Opens Modal C -->
+        <!-- PNG C: Clickable -->
         <a-image src="#imgC" position="0.4 -0.2 0" scale="0.3 0.3 0.3" class="clickable" show-data="target: modal-c"></a-image>
       </a-entity>
     </a-scene>
