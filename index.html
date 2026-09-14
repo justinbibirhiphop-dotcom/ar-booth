@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <script>
+      AFRAME.registerComponent('show-data', {
+        schema: { target: { type: 'string' } },
+        init: function () {
+          this.el.addEventListener('click', () => {
+            document.getElementById(this.data.target).style.display = 'block';
+          });
+        }
+      });
+    </script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+
+    <!-- Modal Pop-up for PNG B -->
+    <div id="modal-b" style="display: none; position: absolute; z-index: 999; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ffffff; padding: 20px; border-radius: 12px; width: 75%; max-width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: sans-serif;">
+      <h3 style="margin-top: 0; color: #333;">Data Section B</h3>
+      <p style="color: #666; font-size: 14px;">Insert your product details, offer, or text for B here.</p>
+      <button onclick="document.getElementById('modal-b').style.display='none'" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">Close</button>
+    </div>
+
+    <!-- Modal Pop-up for PNG C -->
+    <div id="modal-c" style="display: none; position: absolute; z-index: 999; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ffffff; padding: 20px; border-radius: 12px; width: 75%; max-width: 320px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-family: sans-serif;">
+      <h3 style="margin-top: 0; color: #333;">Data Section C</h3>
+      <p style="color: #666; font-size: 14px;">Insert your product details, offer, or text for C here.</p>
+      <button onclick="document.getElementById('modal-c').style.display='none'" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">Close</button>
+    </div>
+
+    <!-- AR Scene -->
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+        <img id="imgA" src="./A.png">
+        <img id="imgB" src="./B.png">
+        <img id="imgC" src="./C.png">
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false">
+        <a-entity cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-entity>
+      </a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <!-- PNG A: Logo rotating slowly on Y-axis -->
+        <a-image src="#imgA" position="0 0.5 0" scale="0.4 0.4 0.4" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000; easing: linear;"></a-image>
+
+        <!-- PNG B: Clickable button -> Opens Modal B -->
+        <a-image src="#imgB" position="-0.4 -0.2 0" scale="0.3 0.3 0.3" class="clickable" show-data="target: modal-b"></a-image>
+
+        <!-- PNG C: Clickable button -> Opens Modal C -->
+        <a-image src="#imgC" position="0.4 -0.2 0" scale="0.3 0.3 0.3" class="clickable" show-data="target: modal-c"></a-image>
+      </a-entity>
+    </a-scene>
+
+  </body>
+</html>
